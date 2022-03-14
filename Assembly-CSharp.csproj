@@ -38,6 +38,7 @@
   <ItemGroup>
      <Compile Include="Assets\BaseAssets\map\AllSkyFree\AllSkyFree_Menu.cs" />
      <Compile Include="Assets\BaseAssets\scripts\CarController.cs" />
+     <Compile Include="Assets\BaseAssets\scripts\CameraController.cs" />
      <None Include="Assets\Geopipe\Pack01\NYBlock01\ModelLicense.txt" />
      <None Include="Assets\BaseAssets\map\AllSkyFree\AllSkyFree_Readme.txt" />
     <Reference Include="UnityEngine">
