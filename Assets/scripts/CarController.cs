@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(NeuralNetwork))]
 public class CarController : MonoBehaviour
 {
     private Vector3 startPosition, startRotation;
+    private NeuralNetwork brain;
 
     [Range(-1f, 1f)]
     // acceleration and turning speed
@@ -31,10 +33,18 @@ public class CarController : MonoBehaviour
     private void Awake() {
         startPosition = transform.position;
         startRotation = transform.eulerAngles;
+        brain = GetComponent<NeuralNetwork>();
+
+        //TESTING neuralnet
+        brain.Initialize(new int[] {5, 10, 2});
+        
     }
 
     /*Reset car values when it dies*/
     public void Reset() {
+        //TESTING neuralnet
+        brain.Initialize(new int[] {5, 10, 2});
+
         timeSinceStart = 0f; 
         totalDistanceTravelled = 0f;
         avgSpeed = 0f;
@@ -55,6 +65,9 @@ public class CarController : MonoBehaviour
         lastPosition = transform.position;
 
         // NN here for a and t values
+        float[] outputs = brain.FeedForward(new float[] {aSensor, bSensor, cSensor});
+        a = outputs[0];
+        t = outputs[1];
 
         MoveCar(a, t);
         timeSinceStart += Time.deltaTime;
@@ -98,21 +111,21 @@ public class CarController : MonoBehaviour
         if (Physics.Raycast(r, out hit)){
             aSensor = hit.distance/60; // divide to normalize when passed to NN
             Debug.DrawRay(transform.position, a*hit.distance, Color.green);
-            print("A: " + aSensor); // should be around val of 0-1
+           // print("A: " + aSensor); // should be around val of 0-1
         }
 
         r.direction = b;
         if (Physics.Raycast(r, out hit)){
             bSensor = hit.distance/45;
             Debug.DrawRay(transform.position, b*hit.distance, Color.green);
-            print("B: " + bSensor);
+          //  print("B: " + bSensor);
         }
 
         r.direction = c;
         if(Physics.Raycast(r, out hit)){
             cSensor = hit.distance/60;
             Debug.DrawRay(transform.position, c*hit.distance, Color.green);
-            print("C: " + cSensor);
+           // print("C: " + cSensor);
         }
     }
 
