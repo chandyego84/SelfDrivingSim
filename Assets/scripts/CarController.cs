@@ -36,14 +36,20 @@ public class CarController : MonoBehaviour
         brain = GetComponent<NeuralNetwork>();
 
         //TESTING neuralnet
-        brain.Initialize(new int[] {5, 10, 2});
+        //brain.Initialize(new int[] {3, 5, 2});
         
+    }
+
+    /*Reset car with its brain*/
+    public void ResetNetwork(NeuralNetwork network) {
+        brain = network;
+        Reset();
     }
 
     /*Reset car values when it dies*/
     public void Reset() {
         //TESTING neuralnet
-        brain.Initialize(new int[] {5, 10, 2});
+        //brain.Initialize(new int[] {3, 5, 2});
 
         timeSinceStart = 0f; 
         totalDistanceTravelled = 0f;
@@ -57,7 +63,12 @@ public class CarController : MonoBehaviour
     /*When car collides with object*/
     private void OnCollisionEnter(Collision collision) {
         // car dies as soon as it hits something 
-        Reset();
+        Death();
+    }
+
+    // car dies, call genetic manager death() fxn to get car's fitness and brain
+    private void Death() {
+        GameObject. FindObjectOfType<GeneticManager>().Death(overallFitness, brain);
     }
 
     private void FixedUpdate() {
@@ -65,9 +76,8 @@ public class CarController : MonoBehaviour
         lastPosition = transform.position;
 
         // NN here for a and t values
-        float[] outputs = brain.FeedForward(new float[] {aSensor, bSensor, cSensor});
-        a = outputs[0];
-        t = outputs[1];
+        (a, t) = brain.FeedForward(new float[] {aSensor, bSensor, cSensor});
+
 
         MoveCar(a, t);
         timeSinceStart += Time.deltaTime;
@@ -89,13 +99,13 @@ public class CarController : MonoBehaviour
         
         if (timeSinceStart > 20 && overallFitness < 40) {
             // car is not doing much
-            Reset();
+            Death();
         }
 
         if (overallFitness >= 1000) {
             // TODO: save to JSON!
             // car is doing well
-            Reset();
+            Death();
         }
     }
 
