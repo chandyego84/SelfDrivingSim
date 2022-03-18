@@ -5,6 +5,7 @@ using UnityEngine;
 using System;
 using Random = UnityEngine.Random;
 
+[Serializable]
 public class NeuralNetwork : MonoBehaviour
 {
     public int[] layers; // number of neurons in each layer
@@ -14,6 +15,8 @@ public class NeuralNetwork : MonoBehaviour
 
     public float fitness;
 
+    private int neuronCount = 0;
+
     /*constructing the matrix*/
     public void Initialize(int[] inputLayers) {
         // initialize layers w/ size of each layer (# of neurons)
@@ -21,7 +24,6 @@ public class NeuralNetwork : MonoBehaviour
         for (int i = 0; i < inputLayers.Length; i++) { // go through each layer
             this.layers[i] = inputLayers[i]; // init size of ith layer (# of neurons)
         }
-        
 
         InitNeurons();
         InitWeights();
@@ -67,10 +69,15 @@ public class NeuralNetwork : MonoBehaviour
     }
 
     /*Feed forward algorithm*/
-    public (float, float) FeedForward(float[] inputs) {
+    public (float, float) FeedForward(float[] inputs, NeuronUI neuronUI) {
+        // reset neuron count (new neural network is running)
+        neuronCount = 0;
+
         // set input neurons
         for (int i = 0; i < inputs.Length; i++) {
-            neurons[0][i] = inputs[i]; 
+            neurons[0][i] = inputs[i];
+            neuronUI.SetNeuronColor(i, inputs[i]);
+            neuronCount++;
         }
 
         // go through layers with neurons with weights (hidden, output)
@@ -86,6 +93,9 @@ public class NeuralNetwork : MonoBehaviour
                 // set neuron value
                 // use tanh activation fnuction
                 neurons[i][j] = (float)Math.Tanh(value);
+                print("neuron count:" + neuronCount);
+                neuronUI.SetNeuronColor(neuronCount, neurons[i][j]); // set color of neuron based on value
+                neuronCount++;
             }
         }
 

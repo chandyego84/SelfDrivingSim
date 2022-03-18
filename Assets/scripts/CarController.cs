@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(NeuralNetwork))]
+[RequireComponent(typeof(NeuronUI))]
 public class CarController : MonoBehaviour
 {
     private Vector3 startPosition, startRotation;
     private NeuralNetwork brain;
+    private NeuronUI neuronUI;
 
     [Range(-1f, 1f)]
     // acceleration and turning speed
@@ -34,6 +36,7 @@ public class CarController : MonoBehaviour
         startPosition = transform.position;
         startRotation = transform.eulerAngles;
         brain = GetComponent<NeuralNetwork>();
+        neuronUI = GetComponent<NeuronUI>();
 
         //TESTING neuralnet
         //brain.Initialize(new int[] {3, 5, 2});
@@ -76,7 +79,7 @@ public class CarController : MonoBehaviour
         lastPosition = transform.position;
 
         // NN here for a and t values
-        (a, t) = brain.FeedForward(new float[] {aSensor, bSensor, cSensor});
+        (a, t) = brain.FeedForward(new float[] {aSensor, bSensor, cSensor}, neuronUI);
 
 
         MoveCar(a, t);

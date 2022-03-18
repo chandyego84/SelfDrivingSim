@@ -17,7 +17,7 @@ public class GeneticManager : MonoBehaviour
 
     [Header("Crossover Controls")]
     public int bestAgentSelection = 10;
-    public int worstAgentSelection = 3;
+    public int worstAgentSelection = 0;
     public int numberToCrossover = 20; // HARDCODED: actually is population - bestAgentSelection. then, remainder = 2(#crossover), so #crossover = remainder / 2
 
     [Header("Public View")]
@@ -75,6 +75,8 @@ public class GeneticManager : MonoBehaviour
             // sort the population by fitness (descending)
             SortPopulation();
             // upload current gen's fittest genome to a text file 
+            // JSON
+            print("Fittest: " + WriteJSON(population[0]));
             
             // pick best population, x amount of best agents, remaining population will be breeded
             NeuralNetwork[] nextPopulation = PickFittestPopulation();
@@ -132,6 +134,12 @@ public class GeneticManager : MonoBehaviour
         return nextPopulation; // return the next population containing the x best agents and remaining unitialized genomes
     }
 
+    private string WriteJSON(NeuralNetwork nn) {
+        // write the neural network to a json file
+        string json = JsonUtility.ToJson(nn);
+        return json;
+    }
+
     /*Crossover: Will need to maintain a steady population, for this, make it 50.
     Process for each new generation:
     - Pick top 10 from previous generation
@@ -182,7 +190,6 @@ public class GeneticManager : MonoBehaviour
                 }
             }
             naturallySelected++;
-            print("nat selected: " + naturallySelected);
             nextPopulation[naturallySelected - 1] = child1; // add child1 to next population
 
 
@@ -206,7 +213,6 @@ public class GeneticManager : MonoBehaviour
                 }
             }
             naturallySelected++;
-            print("nat selected: " + naturallySelected);
             nextPopulation[naturallySelected - 1] = child2; // add child1 to next population
         }
     }
