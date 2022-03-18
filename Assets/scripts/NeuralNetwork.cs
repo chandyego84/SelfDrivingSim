@@ -15,7 +15,9 @@ public class NeuralNetwork : MonoBehaviour
 
     public float fitness;
 
+    // neuron and weight counts for UI display tracking
     private int neuronCount = 0;
+    private int weightCount = 0;
 
     /*constructing the matrix*/
     public void Initialize(int[] inputLayers) {
@@ -70,8 +72,9 @@ public class NeuralNetwork : MonoBehaviour
 
     /*Feed forward algorithm*/
     public (float, float) FeedForward(float[] inputs, NeuronUI neuronUI) {
-        // reset neuron count (new neural network is running)
+        // reset neuron count and weight count (reset so NN visual is updated)
         neuronCount = 0;
+        weightCount = 0;
 
         // set input neurons
         for (int i = 0; i < inputs.Length; i++) {
@@ -89,11 +92,12 @@ public class NeuralNetwork : MonoBehaviour
                 for (int k = 0; k < neurons[i - 1].Length; k++) {
                     // iterate through neurons in previous layer
                     value += weights[i-1][j][k] * neurons[i-1][k]; // sum of all (weight * neuron)
+                    neuronUI.SetWeightsColor(weightCount, weights[i-1][j][k]);
+                    weightCount++;
                 }
                 // set neuron value
                 // use tanh activation fnuction
                 neurons[i][j] = (float)Math.Tanh(value);
-                print("neuron count:" + neuronCount);
                 neuronUI.SetNeuronColor(neuronCount, neurons[i][j]); // set color of neuron based on value
                 neuronCount++;
             }
