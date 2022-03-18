@@ -74,16 +74,20 @@ public class GeneticManager : MonoBehaviour
 
             // sort the population by fitness (descending)
             SortPopulation();
+            // upload current gen's fittest genome to a text file 
+            
             // pick best population, x amount of best agents, remaining population will be breeded
             NeuralNetwork[] nextPopulation = PickFittestPopulation();
             // breeding
-
+            Breed(nextPopulation);
             // mutating
 
             // reset to current genome (first car in population)
+            ResetToCurrentGenome();
         }
     }
 
+    /*Natural Selection*/
     private void SortPopulation() {
         // sort the population by fitness (descending order) -- bubble sort. yeah, it's slow regardless of sort algo i pick
         for (int i = 0; i < population.Length; i++) {
@@ -136,10 +140,77 @@ public class GeneticManager : MonoBehaviour
     - 40 children = 2 * # of crossovers, since each crossover produces two children. 
     - Thus, need to have 20 crossovers per generation.
     */
+    private void Breed(NeuralNetwork[] nextPopulation) {
+        // indices of parents in the current population
+        int AParent = 0;
+        int BParent = 0;
+
+        for (int crosses = 0; crosses < numberToCrossover; crosses++) {
+            // keep breeding until population is full
+            while (AParent == BParent) {
+                // pick random parents from the gene pool (same parent can't breed with itself)
+                AParent = genePool[Random.Range(0, genePool.Count)]; 
+                BParent = genePool[Random.Range(0, genePool.Count)];
+            }
+
+            // initialize the children
+            NeuralNetwork child1 = new NeuralNetwork();
+            NeuralNetwork child2 = new NeuralNetwork();
+            child1.Initialize(netLayers);
+            child2.Initialize(netLayers);
+            child1.fitness = 0;
+            child2.fitness = 0;
+
+            // crossover of parents; genes are the WEIGHTS of the children
+            // Child1: first half of weights from parent A, second half from parent B
+            for (int i = 1; i < child1.layers.Length; i++) {
+                int neuronsInPrev = child1.layers[i - 1]; // number of neurons in previous layer
+                for (int j = 0; j < child1.neurons[i].Length; j++) {
+                    // go through the neurons in current layer
+                    for (int k = 0; k < neuronsInPrev; k++) {
+                        if (j < child1.neurons[i].Length / 2) {
+                            // first half of the layer
+                            // go through the weights of neuron and make it of parent A's weights
+                            child1.weights[i-1][j][k] = population[AParent].weights[i-1][j][k];
+                        }
+                        else {
+                            // second half of the layer
+                            // go through the weights of neuron and make it of parent B's weights
+                            child1.weights[i-1][j][k] = population[BParent].weights[i-1][j][k];
+                        }
+                    }                
+                }
+            }
+            naturallySelected++;
+            print("nat selected: " + naturallySelected);
+            nextPopulation[naturallySelected - 1] = child1; // add child1 to next population
 
 
+            // Child2: first half of weights from parent B, second half from parent A
+            for (int i = 1; i < child2.layers.Length; i++) {
+                int neuronsInPrev = child2.layers[i - 1]; // number of neurons in previous layer
+                for (int j = 0; j < child2.neurons[i].Length; j++) {
+                    // go through the neurons in current layer
+                    for (int k = 0; k < neuronsInPrev; k++) {
+                        if (j < child2.neurons[i].Length / 2) {
+                            // first half of the layer
+                            // go through the weights of neuron and make it of parent B's weights
+                            child2.weights[i-1][j][k] = population[BParent].weights[i-1][j][k];
+                        }
+                        else {
+                            // second half of the layer
+                            // go through the weights of neuron and make it of parent A's weights
+                            child2.weights[i-1][j][k] = population[AParent].weights[i-1][j][k];
+                        }
+                    }
+                }
+            }
+            naturallySelected++;
+            print("nat selected: " + naturallySelected);
+            nextPopulation[naturallySelected - 1] = child2; // add child1 to next population
+        }
+    }
 
-    /*Natural Selection*/
 
     /*Crossover*/
 
