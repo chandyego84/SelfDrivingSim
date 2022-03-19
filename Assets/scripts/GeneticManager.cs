@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(CSVWriter))]
 public class GeneticManager : MonoBehaviour
 {
     [Header("References")]
@@ -28,14 +29,26 @@ public class GeneticManager : MonoBehaviour
     private int naturallySelected = 0; // number of genomes selected by natural selection
     private NeuralNetwork[] population; 
 
+    /*For data collection*/
+    private CSVWriter csvWriter;
+
     /*Generate Initial Population*/
     private void Start() {
         CreatePopulation();
+        // creating csv file
+        csvWriter = GetComponent<CSVWriter>();
+        csvWriter.CreateCSV();
+    }
+
+    private void OnApplicationQuit() {
+        // when sim is stopped, write the data to csv file
+        csvWriter.WriteCSV();
     }
 
     /*Create initial population of cars, each having their own random NN*/
     private void CreatePopulation() {
         population = new NeuralNetwork[initialPopulation]; // create array of neural networks of size initialPopulation
+
         generateRandomDNA(population, 0); // generate the initial population
     }
 
@@ -74,9 +87,9 @@ public class GeneticManager : MonoBehaviour
 
             // sort the population by fitness (descending)
             SortPopulation();
-            // upload current gen's fittest genome to a text file 
-            // JSON
-            print("Fittest: " + WriteJSON(population[0]));
+
+            // after sorting, want to add the fittest genome to the fittest list (for data collection)
+            csvWriter._fitnessList.genFitnessList.Add(new CSVWriter.Data { generation = currentGeneration, fitness = population[0].fitness});
             
             // pick best population, x amount of best agents, remaining population will be breeded
             NeuralNetwork[] nextPopulation = PickFittestPopulation();
