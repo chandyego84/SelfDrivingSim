@@ -147,12 +147,6 @@ public class GeneticManager : MonoBehaviour
         return nextPopulation; // return the next population containing the x best agents and remaining unitialized genomes
     }
 
-    private string WriteJSON(NeuralNetwork nn) {
-        // write the neural network to a json file
-        string json = JsonUtility.ToJson(nn);
-        return json;
-    }
-
     /*Crossover: Will need to maintain a steady population, for this, make it 50.
     Process for each new generation:
     - Pick top 10 from previous generation
@@ -230,8 +224,6 @@ public class GeneticManager : MonoBehaviour
         }
     }
 
-
-    /*Crossover*/
 
     /*Mutation*/
 
