@@ -26278,8 +26278,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 709283031}
-  - component: {fileID: 709283030}
   - component: {fileID: 709283032}
+  - component: {fileID: 709283030}
   m_Layer: 0
   m_Name: GeneticManager
   m_TagString: Untagged
@@ -26296,18 +26296,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 709283029}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 30eec0467947097479f2c0f509202a6d, type: 3}
+  m_Script: {fileID: 11500000, guid: f6352e9550a1f914a8d938ee5583d4bf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controller: {fileID: 149465516}
-  netLayers: 030000000500000002000000
-  initialPopulation: 50
-  mutationRate: 0.055
-  bestAgentSelection: 10
-  worstAgentSelection: 0
-  numberToCrossover: 20
-  currentGeneration: 0
-  currentGenome: 0
+  _fitnessList:
+    genFitnessList: []
 --- !u!4 &709283031
 Transform:
   m_ObjectHideFlags: 0
@@ -26331,11 +26324,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 709283029}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f6352e9550a1f914a8d938ee5583d4bf, type: 3}
+  m_Script: {fileID: 11500000, guid: 30eec0467947097479f2c0f509202a6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fitnessList:
-    genFitnessList: []
+  controller: {fileID: 149465516}
+  netLayers: 030000000500000002000000
+  initialPopulation: 50
+  mutationRate: 0.055
+  bestAgentSelection: 10
+  worstAgentSelection: 0
+  numberToCrossover: 20
+  currentGeneration: 0
+  currentGenome: 0
 --- !u!1 &710958813
 GameObject:
   m_ObjectHideFlags: 0

@@ -48,11 +48,11 @@
   </PropertyGroup>
   <ItemGroup>
      <Compile Include="Assets\BaseAssets\map\AllSkyFree\AllSkyFree_Menu.cs" />
+     <Compile Include="Assets\scripts\CSVWriter.cs" />
      <Compile Include="Assets\scripts\CarController.cs" />
      <Compile Include="Assets\scripts\NeuronUI.cs" />
      <Compile Include="Assets\scripts\NeuralNetwork.cs" />
      <Compile Include="Assets\scripts\GeneticManager.cs" />
-     <Compile Include="Assets\scripts\CSVWriter.cs" />
      <None Include="Assets\BaseAssets\map\AllSkyFree\AllSkyFree_Readme.txt" />
  <Reference Include="UnityEngine">
  <HintPath>C:/Program Files/Unity/Hub/Editor/2020.3.30f1/Editor/Data/Managed/UnityEngine/UnityEngine.dll</HintPath>

@@ -24,12 +24,8 @@ public class CSVWriter : MonoBehaviour
     // variable storing our list of data
     public FitnessList _fitnessList = new FitnessList();
 
-    // creating the csv filename
-    void Start() {
-        filename = Application.dataPath + "/fitnessData.csv";
-    }
-
     public void CreateCSV() {
+            filename = Application.dataPath + "/fitnessData.csv";
             // use textwriter to open stream
             TextWriter tw = new StreamWriter(filename, false); // false-->overwritew file on first time
             tw.WriteLine("Generation, Best Fitness"); // write header
