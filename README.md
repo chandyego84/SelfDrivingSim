@@ -7,7 +7,7 @@ Honestly, I did this project during spring break of my sophomore year in college
 ### Neural Networks
 Neural networks are the core of deep learning algorithms and both their name and structure are inspired by the human brain. The neural network is a collection of neurons that are connected to each other and can be trained to learn patterns in data. They rely on data to learn and improve their accuracy over time. The network consists of an input layer where the value from each input node travels through the arbitrary amount of hidden layers, and then finally through the output nodes to produce some results. Each node produces an output based on the connections from the previous layer (weights) and some bias, and can be described shortly by an activation function which sums the product of the weights and the corresponding node values attached to the weights, plus a bias value. If you want to learn more, this [project on recognizing handwritten digits](http://neuralnetworksanddeeplearning.com/chap1.html) is a good place to start.
 
-![NN vs Brain](/assets/img/NNandBrain.png)
+![CAR!](car_gif.gif)
 
 ### Genetic Algorithm
 As stated, the neural network needs to be trained in order to produce desired results which should allow the car to navigate through the track. The genetic algorithm is a heuristic evolutionary process inspired by the process of natural selection. Genetic algorithms are typically used to solve optimization or search problems, where in this case the neural network is being optimized to produce the best outputs for the car to travel through the track. Again, for more learning, this [article](https://medium.com/@AnasBrital98/genetic-algorithm-explained-76dfbc5de85d) is a good place to start.
@@ -27,6 +27,6 @@ The parameters for the genetic algorithm implementation were mostly arbitrary an
 ### Conclusion
 After multiple sessions fixing and debugging local optima errors and incorrect crossovers, it took about a dozen generations to produce a neural network that could move through the course at a sufficient rate. 
 
-![Fitness Data](/assets/img/trainingData3.JPG)
+![Fitness Data](fitnessGraph.jpg)
 
 [(Shoutout to this post. Helped me with creating my first NN).](https://towardsdatascience.com/building-a-neural-network-framework-in-c-16ef56ce1fef)
